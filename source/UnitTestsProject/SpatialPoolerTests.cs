@@ -1178,7 +1178,7 @@ namespace UnitTestsProject
             mem.HtmConfig.ActiveDutyCycles = activeDutyCycles;
 
             double[] trueBoostFactors = new double[] { 1, 1, 1, 1, 1, 1 };
-            sp.UpdateBoostFactors(mem);
+            sp.BoostByActivationFrequency(mem);
             double[] boostFactors = mem.BoostFactors;
             for (int i = 0; i < boostFactors.Length; i++)
             {
@@ -1189,7 +1189,7 @@ namespace UnitTestsProject
             minActiveDutyCycles = new double[] { 0.1, 0.3, 0.02, 0.04, 0.7, 0.12 };
             mem.HtmConfig.MinActiveDutyCycles = minActiveDutyCycles;
             ArrayUtils.FillArray(mem.BoostFactors, 0);
-            sp.UpdateBoostFactors(mem);
+            sp.BoostByActivationFrequency(mem);
             boostFactors = mem.BoostFactors;
             for (int i = 0; i < boostFactors.Length; i++)
             {
@@ -1201,7 +1201,7 @@ namespace UnitTestsProject
             activeDutyCycles = new double[] { 0.01, 0.02, 0.002, 0.003, 0.07, 0.012 };
             mem.HtmConfig.ActiveDutyCycles = activeDutyCycles;
             trueBoostFactors = new double[] { 9.1, 9.1, 9.1, 9.1, 9.1, 9.1 };
-            sp.UpdateBoostFactors(mem);
+            sp.BoostByActivationFrequency(mem);
             boostFactors = mem.BoostFactors;
             for (int i = 0; i < boostFactors.Length; i++)
             {
@@ -1214,7 +1214,7 @@ namespace UnitTestsProject
             ArrayUtils.FillArray(activeDutyCycles, 0);
             mem.HtmConfig.ActiveDutyCycles = activeDutyCycles;
             ArrayUtils.InitArray(trueBoostFactors, 10.0);
-            sp.UpdateBoostFactors(mem);
+            sp.BoostByActivationFrequency(mem);
             boostFactors = mem.BoostFactors;
             for (int i = 0; i < boostFactors.Length; i++)
             {
@@ -1238,7 +1238,7 @@ namespace UnitTestsProject
 
             mem.HtmConfig.ActiveDutyCycles = activeDutyCycles;
 
-            sp.UpdateBoostFactors(mem);
+            sp.BoostByActivationFrequency(mem);
 
             Assert.IsTrue(mem.BoostFactors.SequenceEqual(originalBoostFactors));
         }
@@ -1516,7 +1516,7 @@ namespace UnitTestsProject
             }
 
             //Execute method being tested
-            sp.BumpUpWeakColumns(mem);
+            sp.BoostColsWithLowOverlap(mem);
 
             for (int i = 0; i < mem.HtmConfig.NumColumns; i++)
             {
@@ -2191,7 +2191,7 @@ namespace UnitTestsProject
             new double[]{0.101, 0.101, 0.101, 0.101, 0.101}};   // increment 9 times
 
             //FORGOT TO SET PERMANENCES ABOVE - DON'T USE mem.setPermanences() 
-            int[] indices = mem.HtmConfig.Memory.GetSparseIndices();
+            int[] indices = mem.Memory.GetSparseIndices();
             for (int i = 0; i < mem.HtmConfig.NumColumns; i++)
             {
                 // double[] perm = mem.getPotentialPools().get(i).getSparsePermanences();
@@ -2704,7 +2704,7 @@ namespace UnitTestsProject
             ArrayUtils.InitArray(dc, 1000.0);
             double[] newvals = new double[5];
             int period = 1000;
-            double[] newDc = sp.UpdateDutyCyclesHelper(mem, dc, newvals, period);
+            double[] newDc = SpatialPooler.CalcEventFrequency( dc, newvals, period);
             double[] expectedDutyCycles = new double[] { 999, 999, 999, 999, 999 };
             Assert.IsTrue(expectedDutyCycles.SequenceEqual(newDc));
 
@@ -2713,7 +2713,7 @@ namespace UnitTestsProject
             newvals = new double[5];
             ArrayUtils.InitArray(newvals, 1000);
             period = 1000;
-            newDc = sp.UpdateDutyCyclesHelper(mem, dc, newvals, period);
+            newDc = SpatialPooler.CalcEventFrequency( dc, newvals, period);
 
             expectedDutyCycles = new double[5];
             Array.Copy(dc, expectedDutyCycles, expectedDutyCycles.Length);
@@ -2724,14 +2724,14 @@ namespace UnitTestsProject
             ArrayUtils.InitArray(dc, 1000.0);
             newvals = new double[] { 2000, 4000, 5000, 6000, 7000 };
             period = 1000;
-            newDc = sp.UpdateDutyCyclesHelper(mem, dc, newvals, period);
+            newDc = SpatialPooler.CalcEventFrequency( dc, newvals, period);
             expectedDutyCycles = new double[] { 1001, 1003, 1004, 1005, 1006 };
             Assert.IsTrue(expectedDutyCycles.SequenceEqual(newDc));
 
             dc = new double[] { 1000, 800, 600, 400, 2000 };
             newvals = new double[5];
             period = 2;
-            newDc = sp.UpdateDutyCyclesHelper(mem, dc, newvals, period);
+            newDc = SpatialPooler.CalcEventFrequency( dc, newvals, period);
             expectedDutyCycles = new double[] { 500, 400, 300, 200, 1000 };
             Assert.IsTrue(expectedDutyCycles.SequenceEqual(newDc));
         }

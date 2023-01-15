@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Damir Dobric. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 
@@ -30,7 +31,7 @@ namespace NeoCortexApi.Entities
     /// ProximalDendrites hold many synapses, which connect columns to the sensory input.
     /// DistalDendrites build synaptic connections to cells inside of columns.
     /// </summary>
-    public class Synapse : IEquatable<Synapse>, IComparable<Synapse>
+    public class Synapse : IEquatable<Synapse>, IComparable<Synapse>/*, ISerializable*/
     {
         /// <summary>
         /// Cell which activates this synapse. On proximal dendrite is this set on NULL. That means proximal dentrites have no presynaptic cell.
@@ -46,8 +47,6 @@ namespace NeoCortexApi.Entities
         public int SegmentIndex { get; set; }
 
         public int SynapseIndex { get; set; }
-
-        public Integer BoxedIndex { get; set; }
 
         /// <summary>
         /// Index of pre-synaptic cell.
@@ -82,7 +81,7 @@ namespace NeoCortexApi.Entities
             this.SourceCell = presynapticCell;
             this.SegmentIndex = distalSegmentIndex;
             this.SynapseIndex = synapseIndex;
-            this.BoxedIndex = new Integer(synapseIndex);
+           // this.boxedIndex = new Integer(synapseIndex);
             this.InputIndex = presynapticCell.Index;
             this.Permanence = permanence;
         }
@@ -98,25 +97,25 @@ namespace NeoCortexApi.Entities
             this.SourceCell = null;
             this.SegmentIndex = segmentIndex;
             this.SynapseIndex = synapseIndex;
-            this.BoxedIndex = new Integer(synapseIndex);
+            //this.boxedIndex = new Integer(synapseIndex);
             this.InputIndex = inputIndex;
         }
 
       
         /// <summary>
-        /// Called by <see cref="Connections.DestroySynapse(Synapse, DistalDendrite)"/> to assign a reused Synapse to another presynaptic Cell
+        /// Called by <see cref="Connections.DestroySynapse(Synapse, Segment)"/> to assign a reused Synapse to another presynaptic Cell
         /// </summary>
         /// <param name="cell">the new presynaptic cell</param>
-        public void SetPresynapticCell(Cell cell)
-        {
-            this.SourceCell = cell;
-        }
+        //public void SetPresynapticCell(Cell cell)
+        //{
+        //    this.SourceCell = cell;
+        //}
 
         /// <summary>
         /// Returns the containing <see cref="Cell"/>
         /// </summary>
         /// <returns></returns>
-        public Cell getPresynapticCell()
+        public Cell GetPresynapticCell()
         {
             return SourceCell;
         }
@@ -214,21 +213,21 @@ namespace NeoCortexApi.Entities
             }
             // We check here the cell id only! The cell as parent must be correctlly created to avoid having different cells with the same id.
             // If we would use here SourceCell.Equals method, that method would cause a cicular invoke of this.Equals etc.
-            else if (SourceCell.CellId != obj.SourceCell.CellId)
-                return false;
+            //else if (SourceCell.CellId != obj.SourceCell.CellId)
+            //    return false;
             if (SynapseIndex != obj.SynapseIndex)
                 return false;
             if (Permanence != obj.Permanence)
                 return false;
             if (IsDestroyed != obj.IsDestroyed)
                 return false;
-            if (BoxedIndex == null)
-            {
-                if (obj.BoxedIndex != null)
-                    return false;
-            }
-            else if (BoxedIndex != obj.BoxedIndex)
-                return false;
+            //if (boxedIndex == null)
+            //{
+            //    if (obj.boxedIndex != null)
+            //        return false;
+            //}
+            //else if (boxedIndex != obj.boxedIndex)
+            //    return false;
 
             return true;
         }
@@ -255,7 +254,7 @@ namespace NeoCortexApi.Entities
         /// <param name="writer"></param>
         internal void SerializeT(StreamWriter writer)
         {
-            HtmSerializer2 ser = new HtmSerializer2();
+            HtmSerializer ser = new HtmSerializer();
 
             ser.SerializeBegin(nameof(Synapse), writer);
 
@@ -265,10 +264,10 @@ namespace NeoCortexApi.Entities
             ser.SerializeValue(this.Permanence, writer);
             ser.SerializeValue(this.IsDestroyed, writer);
 
-            if (this.BoxedIndex != null)
-            {
-                this.BoxedIndex.Serialize(writer);
-            }
+            //if (this.boxedIndex != null)
+            //{
+            //    this.boxedIndex.Serialize(writer);
+            //}
 
             // If we use this, we will get a cirular serialization.
             //if (this.SourceCell != null)
@@ -285,7 +284,7 @@ namespace NeoCortexApi.Entities
         /// <param name="writer"></param>
         public void Serialize(StreamWriter writer)
         {
-            HtmSerializer2 ser = new HtmSerializer2();
+            HtmSerializer ser = new HtmSerializer();
 
             ser.SerializeBegin(nameof(Synapse), writer);
 
@@ -295,10 +294,10 @@ namespace NeoCortexApi.Entities
             ser.SerializeValue(this.Permanence, writer);
             ser.SerializeValue(this.IsDestroyed, writer);
 
-            if (this.BoxedIndex != null)
-            {
-                this.BoxedIndex.Serialize(writer);
-            }
+            //if (this.boxedIndex != null)
+            //{
+            //    this.boxedIndex.Serialize(writer);
+            //}
 
             if (this.SourceCell != null)
             {
@@ -312,7 +311,7 @@ namespace NeoCortexApi.Entities
         {
             Synapse synapse = new Synapse();
 
-            HtmSerializer2 ser = new HtmSerializer2();
+            HtmSerializer ser = new HtmSerializer();
 
             while (sr.Peek() >= 0)
             {
@@ -321,10 +320,10 @@ namespace NeoCortexApi.Entities
                 {
                     continue;
                 }
-                else if (data == ser.ReadBegin(nameof(Integer)))
-                {
-                    synapse.BoxedIndex = Integer.Deserialize(sr);
-                }
+                //else if (data == ser.ReadBegin(nameof(Integer)))
+                //{
+                //    synapse.boxedIndex = Integer.Deserialize(sr);
+                //}
                 else if (data == ser.ReadBegin(nameof(Cell)))
                 {
                     synapse.SourceCell = Cell.Deserialize(sr);
@@ -335,7 +334,7 @@ namespace NeoCortexApi.Entities
                 }
                 else
                 {
-                    string[] str = data.Split(HtmSerializer2.ParameterDelimiter);
+                    string[] str = data.Split(HtmSerializer.ParameterDelimiter);
                     for (int i = 0; i < str.Length; i++)
                     {
                         switch (i)
@@ -373,6 +372,23 @@ namespace NeoCortexApi.Entities
                 }
             }
             return synapse;
+        }
+
+        public void Serialize(object obj, string name, StreamWriter sw)
+        {
+            if (obj is Synapse synapse)
+            {
+                var ignoreMembers = new List<string>
+                {
+                    //nameof(Synapse.SourceCell),
+                };
+                HtmSerializer.SerializeObject(synapse, name, sw, ignoreMembers);
+            }
+        }
+
+        public static object Deserialize<T>(StreamReader sr, string name)
+        {
+            return HtmSerializer.DeserializeObject<T>(sr, name);
         }
         #endregion
     }

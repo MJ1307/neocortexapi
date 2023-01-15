@@ -531,10 +531,57 @@ namespace UnitTestsProject.EncoderTests
             Debug.WriteLine(MathHelpers.SdrMem(15, 100));
             Debug.WriteLine(MathHelpers.SdrMem(20, 100));
 
+            Debug.WriteLine("");
+            Debug.WriteLine("All encoded values. No value should be identical.");
+            Debug.WriteLine("");
+
+            for (int i = 0; i < 9; i++)
+            {
+               Debug.WriteLine(Helpers.StringifyVector( encoder.Encode((double)i)));
+            }
+
             PrintBitMap(encoder, nameof(ScalarEncodingTest));
 
         }
 
+        /// <summary>
+        /// Prints out all encoder values with their similarities.
+        /// </summary>
+        [TestMethod]
+        public void ScalarEncodingHighDensityTest()
+        {
+            ScalarEncoder encoder = new ScalarEncoder(new Dictionary<string, object>()
+            {
+                { "W", 3},
+                { "N", 10},
+                { "MinVal", (double)0},
+                { "MaxVal", (double)20},
+                { "Periodic", false},
+                { "Name", "Power Consumption in December"},
+                { "ClipInput", true},
+            });
+
+            string results = encoder.TraceSimilarities();
+
+            Debug.WriteLine(results);
+            Debug.WriteLine("");
+            Debug.WriteLine(MathHelpers.SdrMem(7, 100));
+            Debug.WriteLine(MathHelpers.SdrMem(10, 100));
+            Debug.WriteLine(MathHelpers.SdrMem(15, 100));
+            Debug.WriteLine(MathHelpers.SdrMem(20, 100));
+
+            Debug.WriteLine("");
+            Debug.WriteLine("All encoded values. Some values will have the same encoded bits.");
+            Debug.WriteLine("");
+
+            for (int i = 0; i < 20; i++)
+            {
+                Debug.WriteLine(Helpers.StringifyVector(encoder.Encode((double)i)));
+            }
+
+            PrintBitMap(encoder, nameof(ScalarEncodingHighDensityTest));
+
+        }
 
         /// <summary>
         /// Prints out all encoder values with their similarities by encoding of the Day and Time in the combined SDR.
@@ -591,11 +638,11 @@ namespace UnitTestsProject.EncoderTests
 
                     sdrDict.Add(key, sdrDayTime.ToArray());
 
-                    var str =Helpers.StringifyVector(sdrDayTime.ToArray());
+                    var str = Helpers.StringifyVector(sdrDayTime.ToArray());
 
                     //int[,] twoDimenArray = ArrayUtils.Make2DArray<int>(sdrDayTime.ToArray(), (int)Math.Sqrt(sdrDayTime.ToArray().Length), (int)Math.Sqrt(sdrDayTime.ToArray().Length));
                     //var twoDimArray = ArrayUtils.Transpose(twoDimenArray);
-                    
+
                     //NeoCortexUtils.DrawBitmap(twoDimArray, 1024, 1024, Path.Combine(folderName, $"{key}.jpg"), Color.Black, Color.Gray, text: $"{day}-{hour}".ToString());
                 }
             }
@@ -603,7 +650,7 @@ namespace UnitTestsProject.EncoderTests
             Console.WriteLine("\nDay-Time");
 
             Console.WriteLine(Helpers.TraceSimilarities(sdrDict));
-        
+
             PrintBitMap(timeEncoder, nameof(ScalarEncodingTest));
 
         }
@@ -621,19 +668,19 @@ namespace UnitTestsProject.EncoderTests
             string filename;
             Directory.CreateDirectory(folderName);
             Dictionary<string, int[]> sdrMap = new Dictionary<string, int[]>();
-      
-            List<string> inputValues = new List<string>();  
+
+            List<string> inputValues = new List<string>();
 
             for (double i = (long)encoder.MinVal; i < (long)encoder.MaxVal; i++)
             {
                 string key;
 
                 inputValues.Add(key = getKey(i));
-                
+
                 var encodedInput = encoder.Encode(i);
 
-                sdrMap.Add(key, ArrayUtils.IndexWhere(encodedInput, (el) => el == 1)); 
-               
+                sdrMap.Add(key, ArrayUtils.IndexWhere(encodedInput, (el) => el == 1));
+
                 int[,] twoDimenArray = ArrayUtils.Make2DArray<int>(encodedInput, (int)Math.Sqrt(encodedInput.Length), (int)Math.Sqrt(encodedInput.Length));
                 var twoDimArray = ArrayUtils.Transpose(twoDimenArray);
                 filename = i + ".png";
@@ -644,7 +691,7 @@ namespace UnitTestsProject.EncoderTests
             var similarities = MathHelpers.CalculateSimilarityMatrix(sdrMap);
 
             var results = Helpers.RenderSimilarityMatrix(inputValues, similarities);
-            
+
             Debug.Write(results);
             Debug.WriteLine("");
         }

@@ -44,14 +44,15 @@ namespace NeoCortexApi.Experiments
                 MaxBoost = maxBoost,
                 DutyCyclePeriod = 100,
                 MinPctOverlapDutyCycles = minOctOverlapCycles,
-                StimulusThreshold = 5,
-                GlobalInhibition = false,
+                StimulusThreshold = 10,
+                GlobalInhibition = true,
                 NumActiveColumnsPerInhArea = 0.02 * numColumns,
-                PotentialRadius = (int)(0.15 * inputBits),
-                LocalAreaDensity = 0.5,
+                //PotentialRadius = (int)(0.15 * inputBits)
+                PotentialRadius = (int)(1.0 * inputBits),
+                LocalAreaDensity = 0.02,
                 ActivationThreshold = 10,
                 MaxSynapsesPerSegment = (int)(0.01 * numColumns),
-                Random = new ThreadSafeRandom(42)
+                Random = new ThreadSafeRandom(42),
             };
 
             double max = 100;
@@ -71,7 +72,7 @@ namespace NeoCortexApi.Experiments
             };
 
             EncoderBase encoder = new ScalarEncoder(settings);
-
+            
             //
             // We create here 100 random input values.
             List<int[]> inputValues = GetTrainingvectors(0, inputBits, width);
@@ -210,7 +211,7 @@ namespace NeoCortexApi.Experiments
 
                     similarity = MathHelpers.CalcArraySimilarity(actColsIndicies, prevActiveColIndicies[inputKey]);
 
-                    Debug.WriteLine($"[i={inputKey}, cols=:{actColsIndicies.Length} s={similarity}] SDR: {Helpers.StringifyVector(actColsIndicies)}");
+                    Debug.WriteLine($"cycle={cycle} [i={inputKey}, cols=:{actColsIndicies.Length} s={similarity}] \tSDR: {Helpers.StringifyVector(actColsIndicies)}");
 
                     prevActiveCols[inputKey] = activeColumns;
                     prevActiveColIndicies[inputKey] = actColsIndicies;

@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+	
     <TargetFramework>netstandard2.1</TargetFramework>
     <PackageId>NeoCortexApi</PackageId>
-    <Version>1.1.2</Version>
+    <Version>1.1.4</Version>
     <Authors>Damir Dobric</Authors>
     <Company>daenet GmbH</Company>
     <Product>Hierarchical Temporal Framework in C#</Product>
@@ -33,7 +34,7 @@
   </ItemGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>7.3</LangVersion>
+	  <LangVersion>8.0</LangVersion>
     <DefineConstants>TRACE;USE_AKKA</DefineConstants>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -45,7 +46,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <LangVersion>7.3</LangVersion>
+	  <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Anomaly.cs" />
@@ -76,7 +77,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
    
   </ItemGroup>
 
