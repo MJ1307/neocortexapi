@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmImageEncoder", "ImageEnc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeoCortexApiPersistenceSample", "Samples\NeoCortexApiPersistenceSample\NeoCortexApiPersistenceSample.csproj", "{AE2CF42C-DC7D-4F0A-8B43-84A5D81E1D72}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiSequenceLearning", "MySEProject\MultiSequenceLearning\MultiSequenceLearning.csproj", "{825844A3-315C-4BF8-9FEF-9EFBC7A340A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{AE2CF42C-DC7D-4F0A-8B43-84A5D81E1D72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE2CF42C-DC7D-4F0A-8B43-84A5D81E1D72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE2CF42C-DC7D-4F0A-8B43-84A5D81E1D72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{825844A3-315C-4BF8-9FEF-9EFBC7A340A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{825844A3-315C-4BF8-9FEF-9EFBC7A340A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{825844A3-315C-4BF8-9FEF-9EFBC7A340A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{825844A3-315C-4BF8-9FEF-9EFBC7A340A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
