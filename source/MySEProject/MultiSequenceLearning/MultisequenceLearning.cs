@@ -332,7 +332,7 @@ namespace MultiSequenceLearning
         private static string GetKey(List<string> prevInputs, double input, string sequence)
         {
             string key = String.Empty;
-
+            
             for (int i = 0; i < prevInputs.Count; i++)
             {
                 if (i > 0)
@@ -340,6 +340,8 @@ namespace MultiSequenceLearning
 
                 key += (prevInputs[i]);
             }
+
+            Console.WriteLine($"{sequence}_{key}");
 
             return $"{sequence}_{key}";
         }

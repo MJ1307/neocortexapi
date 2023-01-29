@@ -18,6 +18,7 @@ namespace MultiSequenceLearning
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            // SE Project: ML22/23-15	Approve Prediction of Multisequence Learning 
             // RunMultiSimpleSequenceLearningExperiment();
             RunMultiSequenceLearningExperiment();
         }
@@ -51,6 +52,10 @@ namespace MultiSequenceLearning
 
             sequences.Add("S1", new List<double>(new double[] { 0.0, 1.0, 2.0, 3.0, 4.0, 2.0, 5.0, }));
             sequences.Add("S2", new List<double>(new double[] { 8.0, 1.0, 2.0, 9.0, 10.0, 7.0, 11.00 }));
+            
+            //need to add more sequence and understand more
+            //sequences.Add("S2", new List<double>(new double[] { 8.0, 1.0, 2.0, 9.0, 10.0, 7.0, 11.00 }));
+            //sequences.Add("S2", new List<double>(new double[] { 8.0, 1.0, 2.0, 9.0, 10.0, 7.0, 11.00 }));
 
             //
             // Prototype for building the prediction engine.
@@ -61,7 +66,7 @@ namespace MultiSequenceLearning
             // These list are used to see how the prediction works.
             // Predictor is traversing the list element by element. 
             // By providing more elements to the prediction, the predictor delivers more precise result.
-            var list1 = new double[] { 1.0, 2.0, 3.0, 4.0, 2.0, 5.0 };
+            var list1 = new double[] { 1.0, 2.0, 3.0 };
             var list2 = new double[] { 2.0, 3.0, 4.0 };
             var list3 = new double[] { 8.0, 1.0, 2.0 };
 
@@ -77,7 +82,8 @@ namespace MultiSequenceLearning
 
         private static void PredictNextElement(Predictor predictor, double[] list)
         {
-            Debug.WriteLine("------------------------------");
+            Console.WriteLine("------------------------------");
+            Console.WriteLine($"Input: {list}");
 
             foreach (var item in list)
             {
@@ -87,18 +93,18 @@ namespace MultiSequenceLearning
                 {
                     foreach (var pred in res)
                     {
-                        Debug.WriteLine($"{pred.PredictedInput} - {pred.Similarity}");
+                        Console.WriteLine($"{pred.PredictedInput} - {pred.Similarity}");
                     }
 
                     var tokens = res.First().PredictedInput.Split('_');
                     var tokens2 = res.First().PredictedInput.Split('-');
-                    Debug.WriteLine($"Predicted Sequence: {tokens[0]}, predicted next element {tokens2.Last()}");
+                    Console.WriteLine($"Predicted Sequence: {tokens[0]}, predicted next element {tokens2.Last()}");
                 }
                 else
-                    Debug.WriteLine("Nothing predicted :(");
+                    Console.WriteLine("Nothing predicted :(");
             }
 
-            Debug.WriteLine("------------------------------");
+            Console.WriteLine("------------------------------");
         }
     }
 }
