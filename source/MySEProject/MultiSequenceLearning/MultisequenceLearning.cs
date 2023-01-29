@@ -340,7 +340,7 @@ namespace MultiSequenceLearning
 
                 key += (prevInputs[i]);
             }
-
+            Console.WriteLine($"GetKey={sequence}_{key}");
             return $"{sequence}_{key}";
         }
     }

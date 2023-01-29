@@ -18,6 +18,7 @@ namespace MultiSequenceLearning
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            // SE Project: ML22/23-15	Approve Prediction of Multisequence Learning 
             // RunMultiSimpleSequenceLearningExperiment();
             RunMultiSequenceLearningExperiment();
         }
@@ -77,8 +78,8 @@ namespace MultiSequenceLearning
 
         private static void PredictNextElement(Predictor predictor, double[] list)
         {
-            Debug.WriteLine("------------------------------");
-
+            Console.WriteLine("------------------------------");
+            Console.WriteLine($"Input: {list}");
             foreach (var item in list)
             {
                 var res = predictor.Predict(item);
@@ -87,18 +88,19 @@ namespace MultiSequenceLearning
                 {
                     foreach (var pred in res)
                     {
-                        Debug.WriteLine($"{pred.PredictedInput} - {pred.Similarity}");
+                        Console.WriteLine($"{pred.PredictedInput} - {pred.Similarity}");
                     }
 
+                    //needs understanding
                     var tokens = res.First().PredictedInput.Split('_');
                     var tokens2 = res.First().PredictedInput.Split('-');
-                    Debug.WriteLine($"Predicted Sequence: {tokens[0]}, predicted next element {tokens2.Last()}");
+                    Console.WriteLine($"Predicted Sequence: {tokens[0]}, predicted next element {tokens2.Last()}");
                 }
                 else
-                    Debug.WriteLine("Nothing predicted :(");
+                    Console.WriteLine("Nothing predicted :(");
             }
 
-            Debug.WriteLine("------------------------------");
+            Console.WriteLine("------------------------------");
         }
     }
 }
