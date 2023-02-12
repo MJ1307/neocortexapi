@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeoCortexApi.Experiments", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmImageEncoder", "ImageEncoder\HtmImageEncoder.csproj", "{60C4DA9F-1D93-4556-A793-02240E08ADA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiSequenceLearning", "MySEProject\MultiSequenceLearning\MultiSequenceLearning.csproj", "{0C8E4BE3-D21B-4DB1-B06E-31F0DBA7E5AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiSequenceLearning", "MySEProject\MultiSequenceLearning\MultiSequenceLearning.csproj", "{0C8E4BE3-D21B-4DB1-B06E-31F0DBA7E5AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +114,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4D9AD5E0-8F00-494E-8BEF-8041C003F4E6} = {D9879A38-CCF8-4440-B939-D066196AC775}
 		{15375C28-1424-4A29-B2AF-11ED92F6134C} = {99AE2313-7D07-4905-A0BB-52D304FCC2F7}
+		{0C8E4BE3-D21B-4DB1-B06E-31F0DBA7E5AF} = {99AE2313-7D07-4905-A0BB-52D304FCC2F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {71185BAD-1342-4836-BCDA-6EC97118F92D}

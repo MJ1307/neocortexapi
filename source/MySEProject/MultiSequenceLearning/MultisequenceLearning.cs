@@ -135,6 +135,7 @@ namespace MultiSequenceLearning
             
             int maxCycles = 3500;
 
+            Console.WriteLine("Understanding SP loop");
             //
             // Training SP to get stable. New-born stage.
             //
