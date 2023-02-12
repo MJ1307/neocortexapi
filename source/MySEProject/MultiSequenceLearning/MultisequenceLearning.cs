@@ -135,6 +135,7 @@ namespace MultiSequenceLearning
             
             int maxCycles = 3500;
 
+            Console.WriteLine("Understanding SP");
             //
             // Training SP to get stable. New-born stage.
             //
@@ -182,6 +183,7 @@ namespace MultiSequenceLearning
 
                 previousInputs.Add("-1.0");
 
+                Console.WriteLine("Understanding SP+TM");
                 //
                 // Now training with SP+TM. SP is pretrained on the given input pattern set.
                 for (int i = 0; i < maxCycles; i++)
