@@ -13,4 +13,8 @@
     <ProjectReference Include="..\..\NeoCortexUtils\NeoCortexUtils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="dataset\" />
+  </ItemGroup>
+
 </Project>
