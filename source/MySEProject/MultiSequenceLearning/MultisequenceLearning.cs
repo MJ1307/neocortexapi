@@ -1,7 +1,15 @@
-﻿using NeoCortexApi;
+﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NeoCortexApi;
 using NeoCortexApi.Classifiers;
 using NeoCortexApi.Encoders;
 using NeoCortexApi.Entities;
+using NeoCortexApi.Classifiers;
 using NeoCortexApi.Network;
 using System;
 using System.Collections.Generic;
@@ -127,12 +135,12 @@ namespace MultiSequenceLearning
 
             //double[] inputs = inputValues.ToArray();
             int[] prevActiveCols = new int[0];
-            
+
             int cycle = 0;
             int matches = 0;
 
-            var lastPredictedValues = new List<string>(new string[] { "0"});
-            
+            var lastPredictedValues = new List<string>(new string[] { "0" });
+
             int maxCycles = 3500;
 
             Console.WriteLine("Understanding SP loop");
@@ -153,7 +161,7 @@ namespace MultiSequenceLearning
                     foreach (var input in inputs.Value)
                     {
                         Debug.WriteLine($" -- {inputs.Key} - {input} --");
-                    
+
                         var lyrOut = layer1.Compute(input, true);
 
                         if (isInStableState)
@@ -255,12 +263,12 @@ namespace MultiSequenceLearning
                                 Debug.WriteLine($"Current Input: {input} \t| Predicted Input: {item.PredictedInput} - {item.Similarity}");
                             }
 
-                            lastPredictedValues = predictedInputValues.Select(v=>v.PredictedInput).ToList();
+                            lastPredictedValues = predictedInputValues.Select(v => v.PredictedInput).ToList();
                         }
                         else
                         {
                             Debug.WriteLine($"NO CELLS PREDICTED for next cycle.");
-                            lastPredictedValues = new List<string> ();
+                            lastPredictedValues = new List<string>();
                         }
                     }
 
@@ -301,7 +309,7 @@ namespace MultiSequenceLearning
             return new Predictor(layer1, mem, cls);
         }
 
-      
+
         /// <summary>
         /// Gets the number of all unique inputs.
         /// </summary>
@@ -345,4 +353,5 @@ namespace MultiSequenceLearning
             return $"{sequence}_{key}";
         }
     }
+}
 }

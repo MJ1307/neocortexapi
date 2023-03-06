@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NeoCortexApi;
 using NeoCortexApi.Encoders;
 using NeoCortexApi.Entities;
+using MultiSequenceLearning;
 
 namespace MultiSequenceLearning
 {
@@ -28,7 +29,7 @@ namespace MultiSequenceLearning
             List<Dictionary<string, string>> sequencesCollection = new List<Dictionary<string, string>>();
 
             int keyForUniqueIndexes = 0;
-            
+
             int count = 0, maxCount = 0;
 
             bool firstTime = true;
@@ -37,7 +38,7 @@ namespace MultiSequenceLearning
             {
                 using (StreamReader reader = new StreamReader(csvFilePath))
                 {
-                    
+
                 }
 
                 return sequencesCollection;
@@ -100,7 +101,25 @@ namespace MultiSequenceLearning
             return sdr;
         }
 
-        
+        //creating synthetic dataset
+        public static List<Sequence> CreateDataset(int count, int size, int startVal, int stopVal)
+        {
+            List<Sequence> dataset = new List<Sequence>();
 
+            for (int i = 0; i < count; i++)
+            {
+                Sequence sequence = new Sequence();
+                sequence.name = $"S{i}";
+                sequence.data = getSyntheticData(size, startVal, stopVal);
+
+            }
+
+            return dataset;
+        }
+
+        private static double[] getSyntheticData(int size, int startVal, int stopVal)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
