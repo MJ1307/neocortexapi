@@ -31,8 +31,6 @@ namespace MultiSequenceLearning
 
             int count = 0, maxCount = 0;
 
-            bool firstTime = true;
-
             if (File.Exists(csvFilePath))
             {
                 using (StreamReader reader = new StreamReader(csvFilePath))
@@ -80,7 +78,6 @@ namespace MultiSequenceLearning
                 // Used by punishing of segments.
                 PredictedSegmentDecrement = 0.1,
 
-                //NumInputs = 88
             };
 
             return cfg;
@@ -126,5 +123,26 @@ namespace MultiSequenceLearning
             return listOfSDR;
         }
 
+
+        //creating synthetic dataset
+        public static List<Sequence> CreateDataset(int count, int size, int startVal, int stopVal)
+        {
+            List<Sequence> dataset = new List<Sequence>();
+
+            for(int i = 0; i < count; i++)
+            {
+                Sequence sequence = new Sequence();
+                sequence.name = $"S{i}";
+                sequence.data = getSyntheticData(size, startVal, stopVal);
+
+            }
+
+            return dataset;
+        }
+
+        private static double[] getSyntheticData(int size, int startVal, int stopVal)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
