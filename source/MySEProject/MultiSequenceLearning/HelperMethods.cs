@@ -119,7 +119,71 @@ namespace MultiSequenceLearning
 
         private static double[] getSyntheticData(int size, int startVal, int stopVal)
         {
-            throw new NotImplementedException();
+            double[] data = new double[size];
+
+            data = randomRemoveDouble(randomDouble(size, startVal, stopVal), getDigits(size) * 10);
+
+            return data;
+        }
+
+        private static double[] randomDouble(int size, int startVal, int stopVal)
+        {
+            double[] array = new double[size];
+            int digit = getDigits(size);
+            List<double> list = new List<double>();
+            double number = 0;
+            Random r = new Random(Guid.NewGuid().GetHashCode());
+            while(list.Count < size)
+            {
+                number = r.NextDouble() / Math.Pow(10, digit);
+                if (!list.Contains(number)) 
+                    list.Add(number);
+            }
+
+            array = list.ToArray();
+            Array.Sort(array);
+
+            return array;            
+        }
+
+        private static double[] randomRemoveDouble(double[] array, int less)
+        {
+            double[] temp = new double[array.Length - less];
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+            double number = 0;
+            List<double> list = new List<double>();
+
+            while (list.Count < (array.Length - less))
+            {
+                number = array[random.Next(0, (array.Length))];
+                if (!list.Contains(number))
+                    list.Add(number);
+            }
+
+            temp = list.ToArray();
+            Array.Sort(temp);
+
+            return temp;
+        }
+
+        private static int getDigits(int n)
+        {
+            if (n >= 0)
+            {
+                if (n < 100) return 2;
+                if (n < 1000) return 3;
+                if (n < 10000) return 4;
+                if (n < 100000) return 5;
+                if (n < 1000000) return 6;
+                if (n < 10000000) return 7;
+                if (n < 100000000) return 8;
+                if (n < 1000000000) return 9;
+                return 10;
+            }
+            else
+            {
+                return 2;
+            }
         }
     }
 }
