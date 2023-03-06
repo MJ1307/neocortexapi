@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NeoCortexApi;
 using NeoCortexApi.Encoders;
 using NeoCortexApi.Entities;
+using MultiSequenceLearning;
 
 namespace LabelPrediction
 {
@@ -363,6 +364,27 @@ namespace LabelPrediction
             MultiEncoder datetimeEncoder = new MultiEncoder(datetime);
 
             return datetimeEncoder;
+        }
+
+        //creating synthetic dataset
+        public static List<Sequence> CreateDataset(int count, int size, int startVal, int stopVal)
+        {
+            List<Sequence> dataset = new List<Sequence>();
+
+            for (int i = 0; i < count; i++)
+            {
+                Sequence sequence = new Sequence();
+                sequence.name = $"S{i}";
+                sequence.data = getSyntheticData(size, startVal, stopVal);
+
+            }
+
+            return dataset;
+        }
+
+        private static double[] getSyntheticData(int size, int startVal, int stopVal)
+        {
+            throw new NotImplementedException();
         }
     }
 }
