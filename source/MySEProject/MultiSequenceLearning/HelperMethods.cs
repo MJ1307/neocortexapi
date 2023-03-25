@@ -9,6 +9,7 @@ using NeoCortexApi;
 using NeoCortexApi.Encoders;
 using NeoCortexApi.Entities;
 using MultiSequenceLearning;
+using Newtonsoft.Json;
 
 namespace MultiSequenceLearning
 {
@@ -102,42 +103,83 @@ namespace MultiSequenceLearning
         }
 
         //creating synthetic dataset
-        public static List<Sequence> CreateDataset(int count, int size, int startVal, int stopVal)
+        public static List<Sequence> CreateDataset()
+        {
+            int numberOfSequence = 3;
+            int size = 20;
+            int startVal = 0;
+            int endVal = 30;
+            Console.WriteLine("Creating Sequence...");
+            List<Sequence> sequence = HelperMethods.CreateSequences(numberOfSequence, size, startVal, endVal);
+
+            return sequence;
+        }
+
+        public static string SaveDataset(List<Sequence> sequences)
+        {
+            string BasePath = AppDomain.CurrentDomain.BaseDirectory;
+            string reportFolder = Path.Combine(BasePath, "dataset");
+            if (!Directory.Exists(reportFolder))
+                Directory.CreateDirectory(reportFolder);
+            string reportPath = Path.Combine(reportFolder, $"dataset_{DateTime.Now.Ticks}.json");
+
+            Console.WriteLine("Saving dataset...");
+
+            if (!File.Exists(reportPath))
+            {
+                using (StreamWriter sw = File.CreateText(reportPath))
+                {
+                    /*sw.WriteLine("name, data");
+                    foreach (Sequence sequence in sequences)
+                    {
+                        sw.WriteLine($"{sequence.name}, {string.Join(",", sequence.data)}");
+                    }*/
+                    //sw.WriteLine(System.Text.Json.JsonSerializer.Serialize<List<Sequence>>(sequences));
+                    sw.WriteLine(JsonConvert.SerializeObject(sequences));
+                }
+            }
+
+            return reportPath;
+        }
+
+        public static List<Sequence> CreateSequences(int count, int size, int startVal, int stopVal)
         {
             List<Sequence> dataset = new List<Sequence>();
 
             for (int i = 0; i < count; i++)
             {
                 Sequence sequence = new Sequence();
-                sequence.name = $"S{i}";
+                sequence.name = $"S{i+1}";
                 sequence.data = getSyntheticData(size, startVal, stopVal);
-
+                dataset.Add(sequence);
             }
 
             return dataset;
         }
 
-        private static double[] getSyntheticData(int size, int startVal, int stopVal)
+        private static int[] getSyntheticData(int size, int startVal, int stopVal)
         {
-            double[] data = new double[size];
+            int[] data = new int[size];
 
-            data = randomRemoveDouble(randomDouble(size, startVal, stopVal), getDigits(size) * 10);
+            data = randomRemoveDouble(randomDouble(size, startVal, stopVal), 3);
 
             return data;
         }
 
-        private static double[] randomDouble(int size, int startVal, int stopVal)
+        private static int[] randomDouble(int size, int startVal, int stopVal)
         {
-            double[] array = new double[size];
-            int digit = getDigits(size);
-            List<double> list = new List<double>();
-            double number = 0;
+            int[] array = new int[size];
+            List<int> list = new List<int>();
+            int number = 0;
             Random r = new Random(Guid.NewGuid().GetHashCode());
             while(list.Count < size)
             {
-                number = r.NextDouble() / Math.Pow(10, digit);
-                if (!list.Contains(number)) 
-                    list.Add(number);
+                number = r.Next(startVal,stopVal);
+                if (!list.Contains(number))
+                {
+                    if(number >= startVal && number <= stopVal)
+                        list.Add(number);
+                }
             }
 
             array = list.ToArray();
@@ -146,12 +188,12 @@ namespace MultiSequenceLearning
             return array;            
         }
 
-        private static double[] randomRemoveDouble(double[] array, int less)
+        private static int[] randomRemoveDouble(int[] array, int less)
         {
-            double[] temp = new double[array.Length - less];
+            int[] temp = new int[array.Length - less];
             Random random = new Random(Guid.NewGuid().GetHashCode());
-            double number = 0;
-            List<double> list = new List<double>();
+            int number = 0;
+            List<int> list = new List<int>();
 
             while (list.Count < (array.Length - less))
             {

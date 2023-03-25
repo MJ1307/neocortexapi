@@ -9,6 +9,6 @@ namespace MultiSequenceLearning
     public class Sequence
     {
         public String name { get; set; }
-        public double[] data { get; set; }
+        public int[] data { get; set; }
     }
 }

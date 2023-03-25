@@ -20,7 +20,12 @@ namespace MultiSequenceLearning
         {
             // SE Project: ML22/23-15	Approve Prediction of Multisequence Learning 
             // RunMultiSimpleSequenceLearningExperiment();
-            RunMultiSequenceLearningExperiment();
+            //RunMultiSequenceLearningExperiment();
+
+            string path = HelperMethods.SaveDataset(HelperMethods.CreateDataset());
+
+            Console.WriteLine($"Dataset saved: {path}");
+
         }
 
         private static void RunMultiSimpleSequenceLearningExperiment()
