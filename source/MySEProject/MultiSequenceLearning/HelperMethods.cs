@@ -102,13 +102,49 @@ namespace MultiSequenceLearning
             return sdr;
         }
 
+        /// <summary>
+        /// Get the encoder with settings
+        /// </summary>
+        /// <param name="inputBits">input bits</param>
+        /// <returns></returns>
+        public static EncoderBase getEncoder(int inputBits)
+        {
+            double max = 20;
+
+            Dictionary<string, object> settings = new Dictionary<string, object>()
+            {
+                { "W", 15},
+                { "N", inputBits},
+                { "Radius", -1.0},
+                { "MinVal", 0.0},
+                { "Periodic", false},
+                { "Name", "scalar"},
+                { "ClipInput", false},
+                { "MaxVal", max}
+            };
+
+            EncoderBase encoder = new ScalarEncoder(settings);
+
+            return encoder;
+        }
+
+        public static List<Sequence> ReadDataset(string path)
+        {
+            Console.WriteLine("Creating Sequence...");
+            String lines = File.ReadAllText(path);
+            //var sequence = JsonConvert.DeserializeObject(lines);
+            List<Sequence> sequence = System.Text.Json.JsonSerializer.Deserialize<List<Sequence>>(lines);
+
+            return sequence;
+        }
+
         //creating synthetic dataset
         public static List<Sequence> CreateDataset()
         {
             int numberOfSequence = 3;
-            int size = 20;
+            int size = 17;
             int startVal = 0;
-            int endVal = 30;
+            int endVal = 20;
             Console.WriteLine("Creating Sequence...");
             List<Sequence> sequence = HelperMethods.CreateSequences(numberOfSequence, size, startVal, endVal);
 
