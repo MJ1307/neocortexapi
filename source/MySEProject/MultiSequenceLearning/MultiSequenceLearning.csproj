@@ -8,13 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\NeoCortexApi\NeoCortexApi.csproj" />
-    <ProjectReference Include="..\..\NeoCortexEntities\NeoCortexEntities.csproj" />
-    <ProjectReference Include="..\..\NeoCortexUtils\NeoCortexUtils.csproj" />
+    <Compile Remove="dataset\**" />
+    <EmbeddedResource Remove="dataset\**" />
+    <None Remove="dataset\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="dataset\" />
+    <ProjectReference Include="..\..\NeoCortexApi\NeoCortexApi.csproj" />
+    <ProjectReference Include="..\..\NeoCortexEntities\NeoCortexEntities.csproj" />
+    <ProjectReference Include="..\..\NeoCortexUtils\NeoCortexUtils.csproj" />
   </ItemGroup>
 
   <ItemGroup>
