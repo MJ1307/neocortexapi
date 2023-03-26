@@ -21,34 +21,6 @@ namespace MultiSequenceLearning
         }
 
         /// <summary>
-        /// Reads CSV file and pre-processes the data and returns it into List of Dictionary
-        /// </summary>
-        /// <param name="csvFilePath">CSV file</param>
-        /// <returns></returns>
-        public static List<Dictionary<string, string>> ReadDataFromCSV(string csvFilePath, string sequenceFormat)
-        {
-            List<Dictionary<string, string>> sequencesCollection = new List<Dictionary<string, string>>();
-
-            int keyForUniqueIndexes = 0;
-
-            int count = 0, maxCount = 0;
-
-            bool firstTime = true;
-
-            if (File.Exists(csvFilePath))
-            {
-                using (StreamReader reader = new StreamReader(csvFilePath))
-                {
-
-                }
-
-                return sequencesCollection;
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// HTM Config for creating Connections
         /// </summary>
         /// <param name="inputBits"></param>
@@ -97,7 +69,7 @@ namespace MultiSequenceLearning
         {
             int[] sdr = new int[0];
 
-            //needs implementation
+            //needs no implementation
 
             return sdr;
         }
@@ -128,9 +100,14 @@ namespace MultiSequenceLearning
             return encoder;
         }
 
+        /// <summary>
+        /// Reads dataset from the file
+        /// </summary>
+        /// <param name="path">full path of the file</param>
+        /// <returns>Object of list of Sequence</returns>
         public static List<Sequence> ReadDataset(string path)
         {
-            Console.WriteLine("Creating Sequence...");
+            Console.WriteLine("Reading Sequence...");
             String lines = File.ReadAllText(path);
             //var sequence = JsonConvert.DeserializeObject(lines);
             List<Sequence> sequence = System.Text.Json.JsonSerializer.Deserialize<List<Sequence>>(lines);
@@ -138,7 +115,10 @@ namespace MultiSequenceLearning
             return sequence;
         }
 
-        //creating synthetic dataset
+        /// <summary>
+        /// Creates list of Sequence as per configuration
+        /// </summary>
+        /// <returns>Object of list of Sequence</returns>
         public static List<Sequence> CreateDataset()
         {
             int numberOfSequence = 3;
@@ -151,6 +131,11 @@ namespace MultiSequenceLearning
             return sequence;
         }
 
+        /// <summary>
+        /// Saves the dataset in 'dataset' folder in BasePath of application
+        /// </summary>
+        /// <param name="sequences">Object of list of Sequence</param>
+        /// <returns>Full path of the dataset</returns>
         public static string SaveDataset(List<Sequence> sequences)
         {
             string BasePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -178,6 +163,14 @@ namespace MultiSequenceLearning
             return reportPath;
         }
 
+        /// <summary>
+        /// Creats multiple sequences as per parameters
+        /// </summary>
+        /// <param name="count">Number of sequences to be created</param>
+        /// <param name="size">Size of each sequence</param>
+        /// <param name="startVal">Minimum value of item in a sequence</param>
+        /// <param name="stopVal">Maximum value of item in a sequence</param>
+        /// <returns>Object of list of Sequence</returns>
         public static List<Sequence> CreateSequences(int count, int size, int startVal, int stopVal)
         {
             List<Sequence> dataset = new List<Sequence>();
@@ -193,6 +186,13 @@ namespace MultiSequenceLearning
             return dataset;
         }
 
+        /// <summary>
+        /// Creates a sequence of given size-3 and range
+        /// </summary>
+        /// <param name="size">Size of list</param>
+        /// <param name="startVal">Min range of the list</param>
+        /// <param name="stopVal">Max range of the list</param>
+        /// <returns></returns>
         private static int[] getSyntheticData(int size, int startVal, int stopVal)
         {
             int[] data = new int[size];
@@ -202,6 +202,13 @@ namespace MultiSequenceLearning
             return data;
         }
 
+        /// <summary>
+        /// Creates a sorted list of array with given paramerters
+        /// </summary>
+        /// <param name="size">Size of array</param>
+        /// <param name="startVal">Min range of the list</param>
+        /// <param name="stopVal">Max range of the list</param>
+        /// <returns></returns>
         private static int[] randomDouble(int size, int startVal, int stopVal)
         {
             int[] array = new int[size];
@@ -224,6 +231,12 @@ namespace MultiSequenceLearning
             return array;            
         }
 
+        /// <summary>
+        /// Randomly remove less number of items from array
+        /// </summary>
+        /// <param name="array">array to processed</param>
+        /// <param name="less">number of removals to be done</param>
+        /// <returns>array with less numbers</returns>
         private static int[] randomRemoveDouble(int[] array, int less)
         {
             int[] temp = new int[array.Length - less];
