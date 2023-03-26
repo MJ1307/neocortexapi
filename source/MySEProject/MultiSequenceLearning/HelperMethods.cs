@@ -21,39 +21,11 @@ namespace MultiSequenceLearning
         }
 
         /// <summary>
-        /// Reads CSV file and pre-processes the data and returns it into List of Dictionary
-        /// </summary>
-        /// <param name="csvFilePath">CSV file</param>
-        /// <returns></returns>
-        public static List<Dictionary<string, string>> ReadDataFromCSV(string csvFilePath, string sequenceFormat)
-        {
-            List<Dictionary<string, string>> sequencesCollection = new List<Dictionary<string, string>>();
-
-            int keyForUniqueIndexes = 0;
-
-            int count = 0, maxCount = 0;
-
-            bool firstTime = true;
-
-            if (File.Exists(csvFilePath))
-            {
-                using (StreamReader reader = new StreamReader(csvFilePath))
-                {
-
-                }
-
-                return sequencesCollection;
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// HTM Config for creating Connections
         /// </summary>
-        /// <param name="inputBits"></param>
-        /// <param name="numColumns"></param>
-        /// <returns></returns>
+        /// <param name="inputBits">input bits</param>
+        /// <param name="numColumns">number of columns</param>
+        /// <returns>Object of HTMConfig</returns>
         public static HtmConfig FetchHTMConfig(int inputBits, int numColumns)
         {
             HtmConfig cfg = new HtmConfig(new int[] { inputBits }, new int[] { numColumns })
@@ -97,7 +69,7 @@ namespace MultiSequenceLearning
         {
             int[] sdr = new int[0];
 
-            //needs implementation
+            //needs no implementation
 
             return sdr;
         }
@@ -106,7 +78,7 @@ namespace MultiSequenceLearning
         /// Get the encoder with settings
         /// </summary>
         /// <param name="inputBits">input bits</param>
-        /// <returns></returns>
+        /// <returns>Object of EncoderBase</returns>
         public static EncoderBase getEncoder(int inputBits)
         {
             double max = 20;
@@ -130,7 +102,7 @@ namespace MultiSequenceLearning
 
         public static List<Sequence> ReadDataset(string path)
         {
-            Console.WriteLine("Creating Sequence...");
+            Console.WriteLine("Reading Sequence...");
             String lines = File.ReadAllText(path);
             //var sequence = JsonConvert.DeserializeObject(lines);
             List<Sequence> sequence = System.Text.Json.JsonSerializer.Deserialize<List<Sequence>>(lines);
