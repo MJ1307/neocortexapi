@@ -26,20 +26,25 @@ namespace MultiSequenceLearning
 
             //to read dataset
             string BasePath = AppDomain.CurrentDomain.BaseDirectory;
-            string datasetPath = Path.Combine(BasePath, "dataset", "dataset_01.json");
+            string datasetPath = Path.Combine(BasePath, "dataset", "dataset_03.json");
             Console.WriteLine($"Reading Dataset: {datasetPath}");
             List<Sequence> sequences = HelperMethods.ReadDataset(datasetPath);
 
-            //RunMultiSimpleSequenceLearningExperiment();
-            //RunMultiSequenceLearningExperiment();
+            string testsetPath = Path.Combine(BasePath, "dataset", "test_01.json");
+            Console.WriteLine($"Reading Testset: {testsetPath}");
+            List<Sequence> sequencesTest = HelperMethods.ReadDataset(testsetPath);
+
+
+            //RunSimpleMultiSequenceLearningExperiment(sequences);
+            RunMultiSequenceLearningExperiment(sequences, sequencesTest);
 
             Console.WriteLine("Done...");
 
         }
 
-        private static void RunMultiSimpleSequenceLearningExperiment()
+        private static void RunSimpleMultiSequenceLearningExperiment(List<Sequence> sequences)
         {
-            List<Sequence> sequences = new List<Sequence>();
+            /*List<Sequence> sequences = new List<Sequence>();
             Sequence S1 = new Sequence();
             S1.name = "S1";
             S1.data = new int[] { 1, 2, 3, 4, 5, 6, 7 };
@@ -48,7 +53,7 @@ namespace MultiSequenceLearning
             S1.data = new int[] { 0, 2, 3, 4, 6, 7, 8 };
 
             sequences.Add(S1);
-            sequences.Add(S2);
+            sequences.Add(S2);*/
 
             //
             // Prototype for building the prediction engine.
@@ -63,50 +68,45 @@ namespace MultiSequenceLearning
         /// Second, three short sequences with three elements each are created und used for prediction. The predictor used by experiment privides to the HTM every element of every predicting sequence.
         /// The predictor tries to predict the next element.
         /// </summary>
-        private static void RunMultiSequenceLearningExperiment(List<Sequence> sequences)
+        private static void RunMultiSequenceLearningExperiment(List<Sequence> sequences, List<Sequence> sequencesTest)
         {
             // Prototype for building the prediction engine.
             MultiSequenceLearning experiment = new MultiSequenceLearning();
             var predictor = experiment.Run(sequences);
 
-            //
             // These list are used to see how the prediction works.
             // Predictor is traversing the list element by element. 
             // By providing more elements to the prediction, the predictor delivers more precise result.
-            var list1 = new double[] { 1.0, 2.0, 3.0 };
-            var list2 = new double[] { 2.0, 3.0, 4.0 };
-            var list3 = new double[] { 8.0, 9.0, 11.0 };
 
-            predictor.Reset();
-            PredictNextElement(predictor, list1);
+            foreach (Sequence item in sequencesTest)
+            {
+                Console.WriteLine($"Using test sequence: {item.name}");
+                predictor.Reset();
+                PredictNextElement(predictor, item.data);
+            }
 
-            predictor.Reset();
-            PredictNextElement(predictor, list2);
-
-            predictor.Reset();
-            PredictNextElement(predictor, list3);
         }
 
-        private static void PredictNextElement(Predictor predictor, double[] list)
+        private static void PredictNextElement(Predictor predictor, int[] list)
         {
             Console.WriteLine("------------------------------");
-            Console.WriteLine($"Input: {list}");
 
             foreach (var item in list)
             {
+                Console.WriteLine($"Input: {item}");
                 var res = predictor.Predict(item);
 
                 if (res.Count > 0)
                 {
                     foreach (var pred in res)
                     {
-                        Console.WriteLine($"{pred.PredictedInput} - {pred.Similarity}");
+                        Console.WriteLine($"Predicted Input: {pred.PredictedInput} - Similarity: {pred.Similarity}");
                     }
 
                     //needs understanding
-                    var tokens = res.First().PredictedInput.Split('_');
-                    var tokens2 = res.First().PredictedInput.Split('-');
-                    Console.WriteLine($"Predicted Sequence: {tokens[0]}, predicted next element {tokens2.Last()}");
+                    var sequence = res.First().PredictedInput.Split('_');
+                    var prediction = res.First().PredictedInput.Split('-');
+                    Console.WriteLine($"Predicted Sequence: {sequence.First()}, predicted next element: {prediction.Last()}");
                 }
                 else
                     Console.WriteLine("Nothing predicted :(");

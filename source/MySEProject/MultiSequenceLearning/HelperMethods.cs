@@ -142,9 +142,9 @@ namespace MultiSequenceLearning
         public static List<Sequence> CreateDataset()
         {
             int numberOfSequence = 3;
-            int size = 17;
+            int size = 12;
             int startVal = 0;
-            int endVal = 20;
+            int endVal = 15;
             Console.WriteLine("Creating Sequence...");
             List<Sequence> sequence = HelperMethods.CreateSequences(numberOfSequence, size, startVal, endVal);
 

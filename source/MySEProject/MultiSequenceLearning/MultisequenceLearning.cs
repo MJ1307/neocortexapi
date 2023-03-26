@@ -64,6 +64,8 @@ namespace MultiSequenceLearning
 
             TemporalMemory tm = new TemporalMemory();
 
+            Console.WriteLine("------------ START ------------");
+
             // For more information see following paper: https://www.scitepress.org/Papers/2021/103142/103142.pdf
             HomeostaticPlasticityController hpc = new HomeostaticPlasticityController(mem, numUniqueInputs * 150, (isStable, numPatterns, actColAvg, seenInputs) =>
             {
@@ -104,7 +106,6 @@ namespace MultiSequenceLearning
 
             int maxCycles = 3500;
 
-            Console.WriteLine("Understanding SP loop");
             //
             // Training SP to get stable. New-born stage.
             //
@@ -115,7 +116,8 @@ namespace MultiSequenceLearning
 
                 cycle++;
 
-                Debug.WriteLine($"-------------- Newborn Cycle {cycle} ---------------");
+                Debug.WriteLine($"-------------- Newborn SP Cycle {cycle} ---------------");
+                Console.WriteLine($"-------------- Newborn SP Cycle {cycle} ---------------");
 
                 foreach (var inputs in sequences)
                 {
@@ -145,12 +147,13 @@ namespace MultiSequenceLearning
             foreach (var sequenceKeyPair in sequences)
             {
                 Debug.WriteLine($"-------------- Sequences {sequenceKeyPair.name} ---------------");
+                Console.WriteLine($"-------------- Sequences {sequenceKeyPair.name} ---------------");
 
                 int maxPrevInputs = sequenceKeyPair.data.Length - 1;
 
                 List<string> previousInputs = new List<string>();
 
-                previousInputs.Add("-1.0");
+                previousInputs.Add("-1");
 
                 //
                 // Now training with SP+TM. SP is pretrained on the given input pattern set.
@@ -162,8 +165,8 @@ namespace MultiSequenceLearning
 
                     Debug.WriteLine("");
 
-                    Debug.WriteLine($"-------------- Cycle {cycle} ---------------");
-                    Debug.WriteLine("");
+                    Debug.WriteLine($"-------------- Cycle SP+TM{cycle} ---------------");
+                    Console.WriteLine($"-------------- Cycle SP+TM {cycle} ---------------");
 
                     foreach (var input in sequenceKeyPair.data)
                     {
@@ -239,6 +242,7 @@ namespace MultiSequenceLearning
                     double accuracy = (double)matches / (double)sequenceKeyPair.data.Length * 100.0;
 
                     Debug.WriteLine($"Cycle: {cycle}\tMatches={matches} of {sequenceKeyPair.data.Length}\t {accuracy}%");
+                    Console.WriteLine($"Cycle: {cycle}\tMatches={matches} of {sequenceKeyPair.data.Length}\t {accuracy}%");
 
                     if (accuracy >= maxPossibleAccuraccy)
                     {
@@ -310,7 +314,7 @@ namespace MultiSequenceLearning
 
                 key += (prevInputs[i]);
             }
-            Console.WriteLine($"GetKey={sequence}_{key}");
+            //Console.WriteLine($"GetKey={sequence}_{key}");
             return $"{sequence}_{key}";
         }
     }
