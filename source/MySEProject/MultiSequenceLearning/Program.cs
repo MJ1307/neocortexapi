@@ -30,12 +30,15 @@ namespace MultiSequenceLearning
             Console.WriteLine($"Reading Dataset: {datasetPath}");
             List<Sequence> sequences = HelperMethods.ReadDataset(datasetPath);
 
+            //to read test dataset
             string testsetPath = Path.Combine(BasePath, "dataset", "test_01.json");
             Console.WriteLine($"Reading Testset: {testsetPath}");
             List<Sequence> sequencesTest = HelperMethods.ReadDataset(testsetPath);
 
-
+            //run learing only
             //RunSimpleMultiSequenceLearningExperiment(sequences);
+
+            //run learning + prediction
             RunMultiSequenceLearningExperiment(sequences, sequencesTest);
 
             Console.WriteLine("Done...");
@@ -44,17 +47,6 @@ namespace MultiSequenceLearning
 
         private static void RunSimpleMultiSequenceLearningExperiment(List<Sequence> sequences)
         {
-            /*List<Sequence> sequences = new List<Sequence>();
-            Sequence S1 = new Sequence();
-            S1.name = "S1";
-            S1.data = new int[] { 1, 2, 3, 4, 5, 6, 7 };
-            Sequence S2 = new Sequence();
-            S1.name = "S2";
-            S1.data = new int[] { 0, 2, 3, 4, 6, 7, 8 };
-
-            sequences.Add(S1);
-            sequences.Add(S2);*/
-
             //
             // Prototype for building the prediction engine.
             MultiSequenceLearning experiment = new MultiSequenceLearning();
@@ -80,6 +72,7 @@ namespace MultiSequenceLearning
 
             foreach (Sequence item in sequencesTest)
             {
+                Debug.WriteLine($"Using test sequence: {item.name}");
                 Console.WriteLine($"Using test sequence: {item.name}");
                 predictor.Reset();
                 PredictNextElement(predictor, item.data);
@@ -100,13 +93,13 @@ namespace MultiSequenceLearning
                 {
                     foreach (var pred in res)
                     {
-                        Console.WriteLine($"Predicted Input: {pred.PredictedInput} - Similarity: {pred.Similarity}");
+                        Debug.WriteLine($"Predicted Input: {pred.PredictedInput} - Similarity: {pred.Similarity}%");
                     }
 
-                    //needs understanding
                     var sequence = res.First().PredictedInput.Split('_');
                     var prediction = res.First().PredictedInput.Split('-');
-                    Console.WriteLine($"Predicted Sequence: {sequence.First()}, predicted next element: {prediction.Last()}");
+                    var accuracy = res.First().Similarity;
+                    Console.WriteLine($"Predicted Sequence: {sequence.First()} - Predicted next element: {prediction.Last()} - Accuracy: {accuracy} %");
                 }
                 else
                     Console.WriteLine("Nothing predicted :(");

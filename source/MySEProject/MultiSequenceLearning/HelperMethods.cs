@@ -23,9 +23,9 @@ namespace MultiSequenceLearning
         /// <summary>
         /// HTM Config for creating Connections
         /// </summary>
-        /// <param name="inputBits"></param>
-        /// <param name="numColumns"></param>
-        /// <returns></returns>
+        /// <param name="inputBits">input bits</param>
+        /// <param name="numColumns">number of columns</param>
+        /// <returns>Object of HTMConfig</returns>
         public static HtmConfig FetchHTMConfig(int inputBits, int numColumns)
         {
             HtmConfig cfg = new HtmConfig(new int[] { inputBits }, new int[] { numColumns })
@@ -78,7 +78,7 @@ namespace MultiSequenceLearning
         /// Get the encoder with settings
         /// </summary>
         /// <param name="inputBits">input bits</param>
-        /// <returns></returns>
+        /// <returns>Object of EncoderBase</returns>
         public static EncoderBase getEncoder(int inputBits)
         {
             double max = 20;
