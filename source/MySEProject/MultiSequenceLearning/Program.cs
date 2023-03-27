@@ -75,37 +75,63 @@ namespace MultiSequenceLearning
                 Debug.WriteLine($"Using test sequence: {item.name}");
                 Console.WriteLine($"Using test sequence: {item.name}");
                 predictor.Reset();
-                PredictNextElement(predictor, item.data);
+                var accuracy = PredictNextElement(predictor, item.data);
+                Console.WriteLine($"Accuracy for {item.name} sequence: {accuracy}");
             }
 
         }
 
-        private static void PredictNextElement(Predictor predictor, int[] list)
+        private static double PredictNextElement(Predictor predictor, int[] list)
         {
+            int matchCount = 0;
+            int predictions = 0;
+            double accuracy = 0.0;
             Console.WriteLine("------------------------------");
+
+            int prev = -1;
+            bool first = true;
 
             foreach (var item in list)
             {
-                Console.WriteLine($"Input: {item}");
-                var res = predictor.Predict(item);
-
-                if (res.Count > 0)
+                if(first)
                 {
-                    foreach (var pred in res)
-                    {
-                        Debug.WriteLine($"Predicted Input: {pred.PredictedInput} - Similarity: {pred.Similarity}%");
-                    }
-
-                    var sequence = res.First().PredictedInput.Split('_');
-                    var prediction = res.First().PredictedInput.Split('-');
-                    var accuracy = res.First().Similarity;
-                    Console.WriteLine($"Predicted Sequence: {sequence.First()} - Predicted next element: {prediction.Last()} - Accuracy: {accuracy} %");
+                    first = false;
                 }
                 else
-                    Console.WriteLine("Nothing predicted :(");
+                {
+                    Console.WriteLine($"Input: {prev}");
+                    var res = predictor.Predict(prev);
+
+                    if (res.Count > 0)
+                    {
+                        foreach (var pred in res)
+                        {
+                            Debug.WriteLine($"Predicted Input: {pred.PredictedInput} - Similarity: {pred.Similarity}%");
+                        }
+
+                        var sequence = res.First().PredictedInput.Split('_');
+                        var prediction = res.First().PredictedInput.Split('-');
+                        Console.WriteLine($"Predicted Sequence: {sequence.First()} - Predicted next element: {prediction.Last()}");
+
+                        //compare current element with prediction of previous element
+                        if(item == Int32.Parse(prediction.Last()))
+                        {
+                            matchCount++;
+                        }
+                    }
+                    else
+                        Console.WriteLine("Nothing predicted :(");
+
+                    predictions++;
+                }
+                prev = item;
             }
 
+            accuracy = (double)matchCount / predictions * 100;
+
             Console.WriteLine("------------------------------");
+
+            return accuracy;
         }
     }
 }
