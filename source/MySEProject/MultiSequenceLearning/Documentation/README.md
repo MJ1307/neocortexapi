@@ -6,13 +6,13 @@ In this project, we have tried to implement new methods along `MultisequenceLear
 
 ## Implementation
 
-![image](overview.png)
+![image](./images/overview.png)
 
 Fig: Architecture of Approve Prediction of Multisequence Learning
 
 Above the flow of implementation of our project.
 
-`Sequence` is the model of how we proces and store the dataset. And can be seen below:
+`Sequence` is the model of how we process and store the dataset. And can be seen below:
 
 ```csharp
 public class Sequence
@@ -48,19 +48,19 @@ eg:
 [
   {
     "name": "T1",
-    "data": [ 1, 5, 9 ]
+    "data": [ 1, 2, 4 ]
   },
   {
     "name": "T2",
-    "data": [ 2, 6, 10 ]
+    "data": [ 2, 3, 4 ]
   },
   {
     "name": "T3",
-    "data": [ 3, 7, 11 ]
+    "data": [ 4, 5, 7 ]
   },
   {
     "name": "T4",
-    "data": [ 4, 8, 12 ]
+    "data": [ 5, 8, 9 ]
   }
 ]
 
@@ -253,7 +253,7 @@ Console.WriteLine($"Dataset saved: {path}");
 
 3. Run to create dataset and save the path of dataset folder and name.
 
-![dataset](dataset.jpg)
+![dataset](/images/dataset.jpg)
 
 ### To run the experiment
 
