@@ -235,6 +235,28 @@ public static string SaveDataset(List<Sequence> sequences)
 }
 ```
 
+6. Calculating accuracy in PredictNextElement() in `Program.cs`
+
+```csharp
+int matchCount = 0;
+int predictions = 0;
+double accuracy = 0.0;
+
+foreach (var item in list)
+{
+    Predict();
+    //compare current element with prediction of previous element
+    if(item == Int32.Parse(prediction.Last()))
+    {
+        matchCount++;
+    }
+    predictions++;
+    accuracy = (double)matchCount / predictions * 100;
+}
+```
+
+Note that prediction code is omitted.
+
 ## How to run the project
 
 ### To create synthetic dataset
