@@ -275,7 +275,7 @@ Console.WriteLine($"Dataset saved: {path}");
 
 3. Run to create dataset and save the path of dataset folder and name.
 
-![dataset](/images/dataset.jpg)
+![dataset](./images/dataset.jpg)
 
 ### To run the experiment
 
@@ -297,7 +297,7 @@ and also *copy the [test data](../dataset/test_01.json) to the folder* (`{BASEPA
 
 We have run the experiment max possible number of times with different dataset. We have tried to keep the size of dataset small and number of sequences also small due to large time in execution.
 
-![results](../Documentation/result.png)
+![results](./images/result.png)
 
 ## Reference
 
