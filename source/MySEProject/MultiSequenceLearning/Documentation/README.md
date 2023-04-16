@@ -90,24 +90,15 @@ public static HtmConfig FetchHTMConfig(int inputBits, int numColumns)
         LocalAreaDensity = -1,
         NumActiveColumnsPerInhArea = 0.02 * numColumns,
         PotentialRadius = (int)(0.15 * inputBits),
-        //InhibitionRadius = 15,
-
         MaxBoost = 10.0,
         DutyCyclePeriod = 25,
         MinPctOverlapDutyCycles = 0.75,
         MaxSynapsesPerSegment = (int)(0.02 * numColumns),
-
         ActivationThreshold = 15,
-        ConnectedPermanence = 0.5,
-
-        // Learning is slower than forgetting in this case.
+        ConnectedPermanence = 0.5,e.
         PermanenceDecrement = 0.25,
         PermanenceIncrement = 0.15,
-
-        // Used by punishing of segments.
         PredictedSegmentDecrement = 0.1,
-
-        //NumInputs = 88
     };
 
     return cfg;
@@ -128,7 +119,7 @@ Remeber that `inputBits` is same as `HTMConfig`.
 /// </summary>
 /// <param name="inputBits">input bits</param>
 /// <returns>Object of EncoderBase</returns>
-public static EncoderBase getEncoder(int inputBits)
+public static EncoderBase GetEncoder(int inputBits)
 {
         double max = 20;
 
@@ -221,13 +212,7 @@ public static string SaveDataset(List<Sequence> sequences)
         {
         using (StreamWriter sw = File.CreateText(reportPath))
         {
-        /*sw.WriteLine("name, data");
-        foreach (Sequence sequence in sequences)
-        {
-        sw.WriteLine($"{sequence.name}, {string.Join(",", sequence.data)}");
-        }*/
-        //sw.WriteLine(System.Text.Json.JsonSerializer.Serialize<List<Sequence>>(sequences));
-        sw.WriteLine(JsonConvert.SerializeObject(sequences));
+          sw.WriteLine(JsonConvert.SerializeObject(sequences));
         }
         }
 
@@ -236,6 +221,10 @@ public static string SaveDataset(List<Sequence> sequences)
 ```
 
 6. Calculating accuracy in PredictNextElement() in `Program.cs`
+
+![image](./images/approve_prediction.png)
+
+Fig: Predictiona and calculating accuracy
 
 ```csharp
 int matchCount = 0;
