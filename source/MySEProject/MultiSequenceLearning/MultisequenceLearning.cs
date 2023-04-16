@@ -37,7 +37,7 @@ namespace MultiSequenceLearning
 
             HtmConfig cfg = HelperMethods.FetchHTMConfig(inputBits, numColumns);
 
-            EncoderBase encoder = HelperMethods.getEncoder(inputBits);
+            EncoderBase encoder = HelperMethods.GetEncoder(inputBits);
 
             return RunExperiment(inputBits, cfg, encoder, sequences);
         }

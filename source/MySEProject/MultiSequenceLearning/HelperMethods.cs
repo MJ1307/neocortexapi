@@ -79,7 +79,7 @@ namespace MultiSequenceLearning
         /// </summary>
         /// <param name="inputBits">input bits</param>
         /// <returns>Object of EncoderBase</returns>
-        public static EncoderBase getEncoder(int inputBits)
+        public static EncoderBase GetEncoder(int inputBits)
         {
             double max = 20;
 
@@ -121,7 +121,7 @@ namespace MultiSequenceLearning
         /// <returns>Object of list of Sequence</returns>
         public static List<Sequence> CreateDataset()
         {
-            int numberOfSequence = 3;
+            int numberOfSequence = 30;
             int size = 12;
             int startVal = 0;
             int endVal = 15;
